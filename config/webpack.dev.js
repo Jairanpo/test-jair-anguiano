@@ -1,11 +1,16 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 /*-----------------------------------------------------------------*/
 
 var config = {
+  mode: 'development',
   entry: {
-    main: ['./src/main.js'],
+    main: [
+      './src/main.js',
+      'webpack-hot-middleware/client?reload=true',
+    ],
   },
   output: {
     filename: '[name].bundle.js',
@@ -36,23 +41,7 @@ var config = {
       /*.................................................................*/
       {
         test: /\.html$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].html',
-            },
-          },
-          {
-            loader: 'extract-loader',
-          },
-          {
-            loader: 'html-loader',
-            options: {
-              attributes: false,
-            },
-          },
-        ],
+        use: [],
       },
     ],
   },
@@ -60,6 +49,9 @@ var config = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new HtmlWebpackPlugin({
+      template: './src/client/index.html',
+    }),
   ],
 };
 

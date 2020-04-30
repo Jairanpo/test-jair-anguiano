@@ -10,6 +10,7 @@ const server = express();
 const webpack = require('webpack');
 const webpackConfig = require('../../config/webpack.dev');
 const webpackCompiler = webpack(webpackConfig);
+
 const webpackDevMiddleware = require('webpack-dev-middleware')(
   webpackCompiler,
   webpackConfig.devServer

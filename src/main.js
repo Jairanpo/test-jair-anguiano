@@ -1,2 +1,2 @@
-require('./index.html');
-alert('Hello');
+require('react-hot-loader/patch');
+require('./client/app');
