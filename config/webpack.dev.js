@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 /*-----------------------------------------------------------------*/
 
@@ -13,6 +14,7 @@ var config = {
   devServer: {
     contentBase: 'dist',
     overlay: true,
+    hot: true,
   },
   module: {
     rules: [
@@ -54,6 +56,11 @@ var config = {
       },
     ],
   },
+  plugins: [
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+  ],
 };
 
 /*=================================================================*/
