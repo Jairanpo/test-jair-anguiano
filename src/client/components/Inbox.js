@@ -2,9 +2,9 @@ import React from 'react';
 
 function Inbox(props) {
   return (
-    <div>
+    <div className="inbox">
       <div className="inbox-title">Inbox</div>
-      <div className="filter">
+      <div className="inbox-filer">
         <select id="inbox-select">
           <option className="inbox-option-inbox">
             Filter by

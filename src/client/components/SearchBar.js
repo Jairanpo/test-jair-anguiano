@@ -8,8 +8,9 @@ function SearchBar(props) {
   }
 
   return (
-    <div>
+    <div className="search-bar">
       <input
+        className="search-bar-input"
         name="search-bar"
         value={search}
         onChange={handleInput}
