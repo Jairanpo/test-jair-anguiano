@@ -3,7 +3,7 @@ import EmailDashboard from './EmailDashboard';
 
 function App(props) {
   return (
-    <div>
+    <div className="app">
       <EmailDashboard />
     </div>
   );
