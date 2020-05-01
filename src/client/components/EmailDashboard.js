@@ -10,7 +10,7 @@ function EmailDashboard(props) {
       className="email-dashboard"
       style={{
         display: 'grid',
-        gridTemplateColumns: '50% 50%',
+        gridTemplateColumns: '40% 60%',
         margin: '5rem',
         height: '80%',
         boxShadow: '3px 3px 10px #00000055',

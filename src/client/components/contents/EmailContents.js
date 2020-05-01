@@ -11,9 +11,10 @@ var mock = {
 function EmailContents(props) {
   function fillTags(emailContents) {
     var tags = emailContents.tags.map(function (
-      tag
+      tag,
+      index
     ) {
-      return <span>{tag}</span>;
+      return <span key={index}>{tag}</span>;
     });
     return [tags];
   }
