@@ -67,7 +67,7 @@ function EmailList(props) {
                 borderStyle: 'solid',
                 borderWidth: '1px',
                 borderColor: '#888',
-              }} /*TODO: Replace this CSS*/
+              }} /*TODO: Replace this sass*/
               data-date={email.date}
               data-from={email.from}
               key={index}

@@ -6,23 +6,16 @@ import EmailContent from './contents/EmailContents';
 
 function EmailDashboard(props) {
   return (
-    <div
-      className="email-dashboard"
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '40% 60%',
-        margin: '5rem',
-        height: '80%',
-        boxShadow: '3px 3px 10px #00000055',
-      }} /*TODO: Remove styles from here*/
-    >
-      <div className="email-list">
-        <Inbox />
-        <SearchBar />
-        <EmailList />
-      </div>
-      <div className="email-content">
-        <EmailContent />
+    <div className="email-dashboard">
+      <div className="email-dashboard-grid">
+        <div className="email-list">
+          <Inbox />
+          <SearchBar />
+          <EmailList />
+        </div>
+        <div className="email-content">
+          <EmailContent />
+        </div>
       </div>
     </div>
   );
