@@ -8,12 +8,12 @@ function EmailDashboard(props) {
   return (
     <div className="email-dashboard">
       <div className="email-dashboard-grid">
-        <div className="email-list">
+        <div className="email-dashboard-list">
           <Inbox />
           <SearchBar />
           <EmailList />
         </div>
-        <div className="email-content">
+        <div className="email-dashboard-content">
           <EmailContent />
         </div>
       </div>

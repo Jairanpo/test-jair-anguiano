@@ -1,3 +1,5 @@
+$radius: 3px
+  
 .email-dashboard
   display: flex
   justify-content: center
@@ -6,8 +8,16 @@
   margin: 0rem 20rem
 
 .email-dashboard-grid
-  background-color: #FFF
   display: grid
   grid-template-columns: 40% 60%
   align-self: center
   box-shadow: 3px 3px 10px #00000033
+
+.email-dashboard-list
+  border-radius: $radius 0 0 $radius
+  background-color: #FFF
+
+.email-dashboard-content
+  padding: 1rem
+  border-radius: 0px $radius $radius 0px
+  background-color: $gray
