@@ -5,9 +5,14 @@
   "author": "Jair Anguiano",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --config=config/webpack.dev.js",
-    "build": "webpack --config=config/webpack.dev.js",
-    "dev": "nodemon --watch config --watch src/server src/server/main.js"
+    "build:static": "webpack && babel-node tools/index.js",
+    "build:server": "webpack --exec babel-node src/server/expressServer.js",
+    "build:client": "webpack",
+    "build": "npm run build:client && npm run build:server",
+    "start:server": "nodemon --exec babel-node src/server/expressServer.js",
+    "start:client": "webpack --watch --config=config/webpack.config.client.js",
+    "start:json": "json-server db.json --port 4000",
+    "start": "npm run start:client & npm run start:server"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -16,6 +21,7 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "babel-loader": "^8.1.0",
+    "concurrently": "^5.2.0",
     "css-loader": "^3.5.3",
     "extract-loader": "^5.0.1",
     "file-loader": "^6.0.0",
@@ -35,6 +41,9 @@
   "dependencies": {
     "express": "^4.17.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "uuid": "^8.0.0"
   }
 }

@@ -1,34 +1,58 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
+import React from 'react';
+import ReactDom from 'react-dom/server';
 
-/*-----------------------------------------------------------------*/
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import webpackConfig from '../../config/webpack.config.server';
 
-const server = express();
+import App from '../client/components/app';
 
-/*.................................................................*/
+/*-------------------------------------------------------------------*/
 
-const webpack = require('webpack');
-const webpackConfig = require('../../config/webpack.dev');
-const webpackCompiler = webpack(webpackConfig);
+const app = express();
+var compiler = webpack(webpackConfig);
 
-const webpackDevMiddleware = require('webpack-dev-middleware')(
-  webpackCompiler,
-  webpackConfig.devServer
+app.use(
+  express.static(
+    path.join(
+      __dirname,
+      '..',
+      '..',
+      'dist',
+      'public'
+    )
+  )
 );
 
-const webpackHotMiddleware = require('webpack-hot-middleware')(
-  webpackCompiler
+app.use(
+  webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: webpackConfig.output.publicPath,
+  })
 );
+app.use(webpackHotMiddleware(compiler));
 
-server.use(webpackHotMiddleware);
-server.use(webpackDevMiddleware);
+app.get('/', (req, res) => {
+  const root = (
+    <html>
+      <body>
+        <div id="root">
+          <App />
+        </div>
+        <script src="/bundle.js"></script>
+      </body>
+    </html>
+  );
+  const html = ReactDom.renderToString(root);
 
-const staticMiddleware = express.static('dist');
+  res.send(html);
+});
 
-server.use(staticMiddleware);
-
-/*.................................................................*/
-
-server.listen(3000, function serviceStart() {
-  console.log('Server is listening');
+app.listen(3000, () => {
+  console.log(
+    'server started: http://localhost:3000'
+  );
 });
