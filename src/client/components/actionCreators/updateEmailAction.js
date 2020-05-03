@@ -1,9 +1,10 @@
 'use strict';
 /*-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --*/
 
-function updateDisplayEmail(payload) {
+function updateDisplayEmail(operation, payload) {
   return {
-    type: 'UPDATE_DISPLAY_EMAIL',
+    type: operation.action,
+    operation: operation,
     payload: payload,
   };
 }

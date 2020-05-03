@@ -6,7 +6,7 @@ import displayEmailReducer from './displayEmailReducer';
 /*-----------------------------------------------------------------*/
 
 const rootReducer = combineReducers({
-  email: emailReducer,
+  emails: emailReducer,
   displayEmail: displayEmailReducer,
 });
 

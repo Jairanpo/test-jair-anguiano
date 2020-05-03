@@ -13,12 +13,15 @@ function EmailDashboard(props) {
   return (
     <div className="email-dashboard">
       <div className="email-dashboard-grid">
-        <div className="email-dashboard-list">
+        <div className="email-dashboard-table">
           <Inbox updateFilter={handleFilter} />
           <EmailTable filter={filter} />
         </div>
         <div className="email-dashboard-content">
-          <EmailDetails filter={filter} />
+          <EmailDetails
+            updateFilter={handleFilter}
+            filter={filter}
+          />
         </div>
       </div>
     </div>

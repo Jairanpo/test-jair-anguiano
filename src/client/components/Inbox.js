@@ -18,7 +18,7 @@ function Inbox(props) {
         >
           <option
             className="inbox-option-inbox"
-            value="inbox"
+            value="filtered"
           >
             Filter by
           </option>

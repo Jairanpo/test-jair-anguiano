@@ -1,8 +1,66 @@
+=button()
+    padding: .5rem 1rem
+    margin: .5rem
+    border-radius: 3px
+
 button.email-label-delete
+    +button()
     background-color: $red
+    color: #ffffff
 
 button.email-label-spam
+    +button()
     background-color: $gray
 
 button.email-label-unread
+    +button()
+    color: #ffffff
+    background-color: $blue
+    float: right
+
+.email-details-from
+    margin: 2rem 1rem
+
+.email-details-tags
+    background-color: #ffffff
+    margin: 1rem
+    padding: .8rem
+    height: 20px
+    border-radius: 3px
+    display: flex
+    align-items: center
+    box-shadow: 0px 0px 7px #00000022
+
+.email-details-tag
+    margin: 1rem
+    padding: .3rem 1rem
+    box-shadow: 0px 0px 7px #00000022
+
+.email-details-body
+    margin: 1rem
+    box-shadow: 0px 0px 10px #00000022
+
+.email-details-body-message
+    padding: 2rem
+    text-align: justify
+    border-radius: 3px 3px 0px 0px
+    background-color: #ffffff
+    height: 200px
+    border: solid 1px rgb(0,0,0,.1)
+
+.email-details-footer
+    height: 30px
+
+.email-details-footer-attachment
+    height: 30px
+    float: left
+    border-radius: 0px 0px 0px 3px
     background-color: $gray
+    border: none
+
+.email-details-footer-replay
+    float: right
+    background-color: $blue
+    color: #ffffff
+    height: 30px
+    border-radius: 0px 0px 3px 0px

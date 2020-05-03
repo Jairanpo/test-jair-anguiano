@@ -21,9 +21,45 @@
 
 .email-table-unreaded-tr
     +email-tr()
+    border-left-color: $blue
+    border-width: 1px 1px 1px 3px
+    .email-table-data-top-from
+        color: $blue
 
 .email-table-data
-    display: grid
-    grid-template-columns: 80% 20%
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-between
+    padding: 1rem
+
+.email-table-data-top
+    display: flex
+    justify-content: space-between
+    width: 100%
+
     div
-        padding: .5rem
+        padding: .2rem
+
+.email-table-data-bottom
+    display: flex
+    justify-content: space-between
+    width: 100%
+
+    div
+        padding: .2rem
+
+.email-table-data-top-from
+    font-weight: bold
+
+.search-bar
+    display: flex
+    justify-content: center
+    align-items: center
+
+.search-bar-input
+    height: 2.2rem
+    margin: .7rem
+    box-shadow: 0px 0px 7px #00000062
+    border: none
+    border-radius: 3px
+    width: 100%

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import editEmailAction from './actionCreators/editEmailsAction';
+import updateEmailAction from './actionCreators/updateEmailAction';
 
 /*-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --*/
 
@@ -18,28 +18,28 @@ function renderDetails(displayEmail, props) {
         <div>
           <button
             className="email-label-delete"
-            onClick={handleEditEmailAction(
+            onClick={handleUpdateEmailAction(
               props,
-              displayEmail,
               {
-                type: 'MOVE_EMAIL',
+                action: 'MOVE_EMAIL',
                 from: props.filter,
                 to: 'deleted',
-              }
+              },
+              displayEmail
             )}
           >
             Delete
           </button>
           <button
             className="email-label-spam"
-            onClick={handleEditEmailAction(
+            onClick={handleUpdateEmailAction(
               props,
-              displayEmail,
               {
-                type: 'MOVE_EMAIL',
+                action: 'MOVE_EMAIL',
                 from: props.filter,
                 to: 'spam',
-              }
+              },
+              displayEmail
             )}
           >
             Spam
@@ -47,14 +47,12 @@ function renderDetails(displayEmail, props) {
 
           <button
             className="email-label-unread"
-            onClick={handleEditEmailAction(
+            onClick={handleUpdateEmailAction(
               props,
-              displayEmail,
               {
-                type: 'MOVE_EMAIL',
-                from: props.filter,
-                to: 'inbox',
-              }
+                action: 'EMAIL_HASNT_BEEN_READ',
+              },
+              displayEmail
             )}
           >
             Mark as unread
@@ -68,11 +66,17 @@ function renderDetails(displayEmail, props) {
           {fillTags(displayEmail)}
         </div>
         <div className="email-details-body">
-          {displayEmail.body}
-        </div>
-        <div className="email-details-footer">
-          <button>attachment</button>
-          <button>Replay</button>
+          <div className="email-details-body-message">
+            {displayEmail.body}
+          </div>
+          <div className="email-details-footer">
+            <button className="email-details-footer-attachment">
+              <ion-icon name="attach-outline"></ion-icon>
+            </button>
+            <button className="email-details-footer-replay">
+              Reply
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -87,7 +91,7 @@ function fillTags(emailDetails) {
   var tags = tagsArray.map(function (tag, index) {
     return (
       <span
-        className="email-details-tags"
+        className="email-details-tag"
         key={index}
       >
         {tag}
@@ -99,14 +103,21 @@ function fillTags(emailDetails) {
 
 /* .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .*/
 
-function handleEditEmailAction(
+function handleUpdateEmailAction(
   props,
-  payload,
-  operation
+  operation,
+  payload
 ) {
   return function handleClick(event) {
     payload.type = props.filter;
-    props.editEmailAction(operation, payload);
+
+    if (operation.action === 'MOVE_EMAIL') {
+      props.updateEmailAction(operation, payload);
+    } else if (
+      operation.action == 'EMAIL_HASNT_BEEN_READ'
+    ) {
+      props.updateEmailAction(operation, payload);
+    }
   };
 }
 
@@ -121,7 +132,7 @@ function mapStateToProps(state) {
 function mapActionsToProps(dispatch) {
   return bindActionCreators(
     {
-      editEmailAction,
+      updateEmailAction,
     },
     dispatch
   );

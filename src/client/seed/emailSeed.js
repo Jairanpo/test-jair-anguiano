@@ -182,6 +182,7 @@ var seedEmails = {
   inbox: seedInbox,
   spam: seedSpam,
   deleted: seedDeleted,
+  filtered: [],
 };
 
 export default seedEmails;

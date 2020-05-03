@@ -10,12 +10,25 @@ function emailReducers(
 ) {
   switch (action.type) {
     case 'EMAIL_HAS_BEEN_READ':
-      return email_has_been_read(
+      return update_has_been_readed(
         state,
+        action.operation,
+        action.payload
+      );
+    case 'EMAIL_HASNT_BEEN_READ':
+      return update_has_been_readed(
+        state,
+        action.operation,
         action.payload
       );
     case 'MOVE_EMAIL':
       return move_email(
+        state,
+        action.operation,
+        action.payload
+      );
+    case 'FILTERED_EMAILS':
+      return filtered_email(
         state,
         action.operation,
         action.payload
@@ -27,20 +40,50 @@ function emailReducers(
 
 /*-----------------------------------------------------------------*/
 
-function email_has_been_read(state, payload) {
-  let newState = state;
-  newState[payload.type] = newState[
-    payload.type
-  ].map((email) => {
-    if (
-      email.from === payload.from &&
-      email.date === payload.date
-    ) {
-      email.isReaded = true;
-    }
-    return email;
-  });
-  return newState;
+function update_has_been_readed(
+  state,
+  operation,
+  payload
+) {
+  let newState = {
+    inbox: state.inbox,
+    spam: state.spam,
+    deleted: state.deleted,
+    filtered: state.filtered,
+  };
+
+  if (
+    operation.action === 'EMAIL_HAS_BEEN_READ'
+  ) {
+    newState[payload.type] = newState[
+      payload.type
+    ].map((email) => {
+      if (
+        email.from === payload.from &&
+        email.date === payload.date
+      ) {
+        email.isReaded = true;
+      }
+      return email;
+    });
+    return newState;
+  }
+  if (
+    operation.action === 'EMAIL_HASNT_BEEN_READ'
+  ) {
+    newState[payload.type] = newState[
+      payload.type
+    ].map((email) => {
+      if (
+        email.from === payload.from &&
+        email.date === payload.date
+      ) {
+        email.isReaded = false;
+      }
+      return email;
+    });
+    return newState;
+  }
 }
 
 /* .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .*/
@@ -50,7 +93,15 @@ function move_email(state, operation, payload) {
     inbox: state.inbox,
     deleted: state.deleted,
     spam: state.spam,
+    filtered: state.filtered,
   };
+
+  manage_update_from_filtered_field(
+    newState,
+    operation,
+    payload
+  );
+
   if (operation.from !== operation.to) {
     for (
       var i = 0;
@@ -69,11 +120,77 @@ function move_email(state, operation, payload) {
     if (operation.to === 'inbox') {
       payload.isReaded = false;
     }
-    console.log(payload);
 
     newState[operation.to].push(payload);
     newState[operation.from].splice(i, 1);
+  } else if (
+    operation.from === 'inbox' &&
+    operation.from === 'inbox'
+  ) {
+    let updatedInboxMessages = newState[
+      'inbox'
+    ].map(function changeIsRead(email) {
+      if (
+        email.from === payload.from &&
+        email.date === payload.date
+      ) {
+        email.isReaded = false;
+      }
+      return email;
+    });
+
+    newState['inbox'] = updatedInboxMessages;
   }
+
+  return newState;
+}
+
+function manage_update_from_filtered_field(
+  newState,
+  operation,
+  payload
+) {
+  var removeFrom = { index: null, field: null };
+  var fields = ['inbox', 'spam', 'deleted'];
+  if (operation.from === 'filtered') {
+    fields.forEach((field) => {
+      newState[field].forEach((email, i) => {
+        if (
+          payload.from === email.from &&
+          payload.date === email.date
+        ) {
+          removeFrom.index = i;
+          removeFrom.field = field;
+        }
+      });
+    });
+  }
+  return removeFrom;
+}
+
+/* .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .*/
+
+function filtered_email(
+  state,
+  operation,
+  payload
+) {
+  var newState = {
+    inbox: state.inbox,
+    spam: state.spam,
+    deleted: state.deleted,
+    filtered: state.filtered,
+  };
+
+  var filtered = [];
+
+  newState.inbox.forEach((email) => {
+    if (email.from.includes(payload.keyword)) {
+      filtered.push(email);
+    }
+  });
+
+  newState.filtered = filtered;
 
   return newState;
 }
