@@ -1,0 +1,29 @@
+.email-table
+    list-style-type: none
+    padding: 0px
+    border-collapse: collapse
+    font-family: $font
+    font-size: $size
+    width: 100%
+
+=email-tr($bg: $BlueBackgroundColor)
+    display: grid
+    cursor: pointer
+    border: 1px solid #CCC
+    background-color: $bg
+    padding: .5rem
+
+.email-table-searchbar-tr
+    +email-tr(#FFF)
+
+.email-table-readed-tr
+    +email-tr(#FFF)
+
+.email-table-unreaded-tr
+    +email-tr()
+
+.email-table-data
+    display: grid
+    grid-template-columns: 80% 20%
+    div
+        padding: .5rem

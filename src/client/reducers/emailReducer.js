@@ -1,70 +1,83 @@
 'use strict';
 
-var mockEmails = [
-  {
-    from: 'mhallatt0@walmart.com',
-    to: 'cziem0@surveymonkey.com',
-    subject: 'Office Assistant IV',
-    body:
-      'condimentum curabitur in libero ut massa volutpat convallis morbi odio odio elementum eu interdum eu tincidunt in leo maecenas pulvinar lobortis',
-    date: '3/31/2017',
-    isReaded: false,
-    avatar:
-      'https://robohash.org/dignissimosetsuscipit.jpg?size=50x50&set=set1',
-    tag: 'Indigo',
-    attachements: [
-      {
-        file:
-          'http://dummyimage.com/250x250.jpg/5fa2dd/ffffff',
-        name: 'ut_nulla_sed.jpeg',
-      },
-    ],
-  },
-  {
-    from: 'nmulbery1@seattletimes.com',
-    to: 'idimont1@usa.gov',
-    subject: 'Technical Writer',
-    body:
-      'sit amet cursus id turpis integer aliquet massa id lobortis convallis tortor risus dapibus augue vel accumsan tellus nisi eu orci mauris lacinia sapien quis libero nullam sit amet',
-    date: '11/17/2016',
-    isReaded: false,
-    avatar:
-      'https://robohash.org/aliquamautdolore.jpg?size=50x50&set=set1',
-    tag: 'Teal',
-    attachements: [
-      {
-        file:
-          'http://dummyimage.com/250x250.jpg/dddddd/000000',
-        name: 'sodales_scelerisque_mauris.jpeg',
-      },
-    ],
-  },
-  {
-    from: 'manuel@seattletimes.com',
-    to: 'idimont1@usa.gov',
-    subject: 'Technical Writer',
-    body:
-      'sit amet cursus id turpis integer aliquet massa id lobortis convallis tortor risus dapibus augue vel accumsan tellus nisi eu orci mauris lacinia sapien quis libero nullam sit amet',
-    date: '11/17/2016',
-    isReaded: false,
-    avatar:
-      'https://robohash.org/aliquamautdolore.jpg?size=50x50&set=set1',
-    tag: 'Teal',
-    attachements: [
-      {
-        file:
-          'http://dummyimage.com/250x250.jpg/dddddd/000000',
-        name: 'sodales_scelerisque_mauris.jpeg',
-      },
-    ],
-  },
-];
+import seedEmail from '../seed/emailSeed';
+
+/*-----------------------------------------------------------------*/
 
 function emailReducers(
-  state = mockEmails,
+  state = seedEmail,
   action
 ) {
-  return state;
+  switch (action.type) {
+    case 'EMAIL_HAS_BEEN_READ':
+      return email_has_been_read(
+        state,
+        action.payload
+      );
+    case 'MOVE_EMAIL':
+      return move_email(
+        state,
+        action.operation,
+        action.payload
+      );
+    default:
+      return state;
+  }
 }
+
+/*-----------------------------------------------------------------*/
+
+function email_has_been_read(state, payload) {
+  let newState = state;
+  newState[payload.type] = newState[
+    payload.type
+  ].map((email) => {
+    if (
+      email.from === payload.from &&
+      email.date === payload.date
+    ) {
+      email.isReaded = true;
+    }
+    return email;
+  });
+  return newState;
+}
+
+/* .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .*/
+
+function move_email(state, operation, payload) {
+  let newState = {
+    inbox: state.inbox,
+    deleted: state.deleted,
+    spam: state.spam,
+  };
+  if (operation.from !== operation.to) {
+    for (
+      var i = 0;
+      i < newState[operation.from].length;
+      i++
+    ) {
+      if (
+        newState[operation.from][i].from ===
+          payload.from &&
+        newState[operation.from][i].date ===
+          payload.date
+      ) {
+        break;
+      }
+    }
+    if (operation.to === 'inbox') {
+      payload.isReaded = false;
+    }
+    console.log(payload);
+
+    newState[operation.to].push(payload);
+    newState[operation.from].splice(i, 1);
+  }
+
+  return newState;
+}
+
+/*=================================================================*/
 
 export default emailReducers;

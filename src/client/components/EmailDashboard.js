@@ -1,20 +1,24 @@
-import React from 'react';
-import EmailList from './EmailList';
-import SearchBar from './SearchBar';
+import React, { useState } from 'react';
+import EmailTable from './EmailTable';
 import Inbox from './Inbox';
-import EmailContent from './emailContents/EmailContents';
+import EmailDetails from './EmailDetails';
 
 function EmailDashboard(props) {
+  const [filter, setFilter] = useState('inbox');
+
+  function handleFilter(value) {
+    setFilter(value);
+  }
+
   return (
     <div className="email-dashboard">
       <div className="email-dashboard-grid">
         <div className="email-dashboard-list">
-          <Inbox />
-          <SearchBar />
-          <EmailList />
+          <Inbox updateFilter={handleFilter} />
+          <EmailTable filter={filter} />
         </div>
         <div className="email-dashboard-content">
-          <EmailContent />
+          <EmailDetails filter={filter} />
         </div>
       </div>
     </div>

@@ -1,12 +1,12 @@
 'use strict';
 import { combineReducers } from 'redux';
-import emailsReducer from './emailReducer';
+import emailReducer from './emailReducer';
 import displayEmailReducer from './displayEmailReducer';
 
 /*-----------------------------------------------------------------*/
 
 const rootReducer = combineReducers({
-  emails: emailsReducer,
+  email: emailReducer,
   displayEmail: displayEmailReducer,
 });
 

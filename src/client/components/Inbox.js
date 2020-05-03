@@ -1,12 +1,25 @@
 import React from 'react';
 
+/*-----------------------------------------------------------------*/
+
 function Inbox(props) {
+  function handleChange(event) {
+    props.updateFilter(event.target.value);
+  }
+
   return (
     <div className="inbox">
       <div className="inbox-title">Inbox</div>
-      <div className="inbox-filer">
-        <select id="inbox-select">
-          <option className="inbox-option-inbox">
+      <label htmlFor="inbox-select"></label>
+      <div className="inbox-filter">
+        <select
+          id="inbox-select"
+          onChange={handleChange}
+        >
+          <option
+            className="inbox-option-inbox"
+            value="inbox"
+          >
             Filter by
           </option>
           <option
@@ -32,5 +45,7 @@ function Inbox(props) {
     </div>
   );
 }
+
+/*=================================================================*/
 
 export default Inbox;

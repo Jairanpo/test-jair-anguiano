@@ -15,7 +15,6 @@ function SearchBar(props) {
         value={search}
         onChange={handleInput}
       />
-      <div>{search}</div>
     </div>
   );
 }
