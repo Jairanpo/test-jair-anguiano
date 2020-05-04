@@ -49,8 +49,9 @@ app.get('/', (req, res) => {
 /*   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .  .  .  .  .  . */
 
 app.get('/api/email', (req, res) => {
-  console.log('request');
-  res.json(createRandomUser());
+  let userOne = createRandomUser();
+  let userTwo = createRandomUser();
+  res.json([userOne, userTwo]);
 });
 
 /*============================================================================*/

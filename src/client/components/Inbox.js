@@ -9,7 +9,13 @@ function Inbox(props) {
 
   return (
     <div className="inbox">
-      <div className="inbox-title">Inbox</div>
+      <div className="inbox-title">
+        Inbox{' '}
+        <span className="inbox-title-email-amount">
+          {props.newEmailsAmount}
+        </span>
+      </div>
+
       <label htmlFor="inbox-select"></label>
       <div className="inbox-filter">
         <select

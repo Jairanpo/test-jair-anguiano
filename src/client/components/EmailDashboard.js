@@ -5,20 +5,59 @@ import React, {
 import EmailTable from './EmailTable';
 import Inbox from './Inbox';
 import EmailDetails from './EmailDetails';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import updateEmailAction from './actionCreators/updateEmailAction';
 
 /*============================================================================*/
 
 function EmailDashboard(props) {
   const [filter, setFilter] = useState('inbox');
-  var lastFetch = Date.now();
+  const [
+    newEmailsAmount,
+    setNewEmailsAmount,
+  ] = useState(0);
+
+  /*     .     .     .     .     .     */
 
   useEffect(() => {
-    console.log(lastFetch);
-  });
+    setInterval(function () {
+      axios
+        .get('http://localhost:3000/api/email')
+        .then(function (response) {
+          props.updateEmailAction(
+            { action: 'UNSHIFT_EMAILS' },
+            response.data
+          );
+
+          return;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, 30000);
+  }, []);
 
   function handleFilter(value) {
     setFilter(value);
   }
+
+  useEffect(() => {
+    var newMails = 0;
+
+    props.emails.forEach((element) => {
+      if (
+        element.isReaded === false &&
+        element.field === 'inbox'
+      ) {
+        return newMails++;
+      }
+    });
+    setNewEmailsAmount(newMails);
+  });
+
+  /*     .     .     .     .     .     */
 
   return (
     <div className="email-dashboard">
@@ -27,12 +66,12 @@ function EmailDashboard(props) {
           <Inbox
             updateFilter={handleFilter}
             filter={filter}
+            newEmailsAmount={newEmailsAmount}
           />
           <EmailTable
             updateFilter={handleFilter}
             filter={filter}
           />
-          <p>test</p>
         </div>
         <div className="email-dashboard-content">
           <EmailDetails
@@ -47,4 +86,22 @@ function EmailDashboard(props) {
 
 /*============================================================================*/
 
-export default EmailDashboard;
+function mapStateToProps(state) {
+  return {
+    emails: state.emails,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      updateEmailAction,
+    },
+    dispatch
+  );
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EmailDashboard);

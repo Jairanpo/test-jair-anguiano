@@ -37,7 +37,11 @@ function emailReducers(
         state,
         action.payload
       );
-
+    case 'UNSHIFT_EMAILS':
+      return unshift_emails(
+        state,
+        action.payload
+      );
     default:
       return state;
   }
@@ -136,6 +140,14 @@ function update_in_filter(state, payload) {
     return element;
   });
   return state;
+}
+
+/* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+
+function unshift_emails(state, payload) {
+  let newState = [...state];
+  newState.unshift(payload[1], payload[0]);
+  return newState;
 }
 
 /*////////////////////////////////////////////////////////////////////////////*/

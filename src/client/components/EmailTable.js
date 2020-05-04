@@ -17,33 +17,31 @@ function EmailTable(props) {
     setSearch(event.target.value);
   }
   return (
-    <div>
-      <table className="email-table">
-        <tbody>
-          <tr>
-            <td className="email-table-searchbar-tr">
-              <div className="search-bar">
-                <input
-                  className="search-bar-input"
-                  name="search-bar"
-                  value={search}
-                  onChange={handleInput}
-                  onKeyDown={handleKeyPressed(
-                    props,
-                    {
-                      action: 'FILTERED_EMAILS',
-                    },
-                    { keyword: search },
-                    isFilterCleared,
-                    setIsFilterCleared
-                  )}
-                />
-              </div>
-            </td>
-          </tr>
+    <div className="email-list">
+      <div className="email-table">
+        <div className="email-table-searchbar-tr">
+          <div className="search-bar">
+            <input
+              className="search-bar-input"
+              name="search-bar"
+              value={search}
+              onChange={handleInput}
+              onKeyDown={handleKeyPressed(
+                props,
+                {
+                  action: 'FILTERED_EMAILS',
+                },
+                { keyword: search },
+                isFilterCleared,
+                setIsFilterCleared
+              )}
+            />
+          </div>
+        </div>
+        <div className="email-table-body">
           {fillTableWithEmails(props)}
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   );
 }
@@ -121,7 +119,7 @@ function fillTableWithEmails(props) {
     _html = _currentInboxEmails.map(
       (email, index) => {
         return (
-          <tr
+          <div
             tabIndex="0"
             className={setListElementClass(
               email.isReaded
@@ -136,7 +134,7 @@ function fillTableWithEmails(props) {
             )}
             name={email.from}
           >
-            <td className="email-table-data">
+            <div className="email-table-data">
               <div className="email-table-data-top">
                 <div className="email-table-data-top-from">
                   {email.from}
@@ -153,19 +151,19 @@ function fillTableWithEmails(props) {
                   <ion-icon name="attach-outline"></ion-icon>
                 </div>
               </div>
-            </td>
-          </tr>
+            </div>
+          </div>
         );
       }
     );
   } else {
     if (_currentInboxEmails.length === 0) {
       _html = (
-        <tr className="email-table-readed-tr">
-          <td className="email-table-data">
+        <div className="email-table-readed-tr">
+          <div className="email-table-data">
             No messages to show
-          </td>
-        </tr>
+          </div>
+        </div>
       );
     }
   }
