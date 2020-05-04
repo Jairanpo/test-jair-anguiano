@@ -2,7 +2,7 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import EmailTable from './EmailTable';
+import EmailList from './EmailList';
 import Inbox from './Inbox';
 import EmailDetails from './EmailDetails';
 import axios from 'axios';
@@ -36,7 +36,7 @@ function EmailDashboard(props) {
         .catch((err) => {
           console.log(err);
         });
-    }, 30000);
+    }, 10000);
   }, []);
 
   function handleFilter(value) {
@@ -68,7 +68,7 @@ function EmailDashboard(props) {
             filter={filter}
             newEmailsAmount={newEmailsAmount}
           />
-          <EmailTable
+          <EmailList
             updateFilter={handleFilter}
             filter={filter}
           />

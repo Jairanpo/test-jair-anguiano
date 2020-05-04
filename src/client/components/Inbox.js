@@ -7,11 +7,20 @@ function Inbox(props) {
     props.updateFilter(event.target.value);
   }
 
+  function handleAmountClick(goto = 'inbox') {
+    return function handleClick(event) {
+      props.updateFilter('inbox');
+    };
+  }
+
   return (
     <div className="inbox">
       <div className="inbox-title">
         Inbox{' '}
-        <span className="inbox-title-email-amount">
+        <span
+          className="inbox-title-email-amount"
+          onClick={handleAmountClick()}
+        >
           {props.newEmailsAmount}
         </span>
       </div>

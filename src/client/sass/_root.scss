@@ -1,0 +1,14 @@
+#root {
+  height: 100vh;
+}
+
+:root {
+  font-family: $font;
+  color: $fontColor;
+  font-size: 12px;
+}
+
+body {
+  background-color: $bodyBackgroundColor;
+  height: 100%;
+}

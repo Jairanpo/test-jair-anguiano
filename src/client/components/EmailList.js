@@ -6,7 +6,7 @@ import updateEmailAction from './actionCreators/updateEmailAction';
 
 /*============================================================================*/
 
-function EmailTable(props) {
+function EmailList(props) {
   const [search, setSearch] = useState('');
   const [
     isFilterCleared,
@@ -18,29 +18,27 @@ function EmailTable(props) {
   }
   return (
     <div className="email-list">
-      <div className="email-table">
-        <div className="email-table-searchbar-tr">
-          <div className="search-bar">
-            <input
-              className="search-bar-input"
-              name="search-bar"
-              value={search}
-              onChange={handleInput}
-              onKeyDown={handleKeyPressed(
-                props,
-                {
-                  action: 'FILTERED_EMAILS',
-                },
-                { keyword: search },
-                isFilterCleared,
-                setIsFilterCleared
-              )}
-            />
-          </div>
+      <div className="email-list-searchbar">
+        <div className="search-bar">
+          <input
+            className="search-bar-input"
+            name="search-bar"
+            value={search}
+            onChange={handleInput}
+            onKeyDown={handleKeyPressed(
+              props,
+              {
+                action: 'FILTERED_EMAILS',
+              },
+              { keyword: search },
+              isFilterCleared,
+              setIsFilterCleared
+            )}
+          />
         </div>
-        <div className="email-table-body">
-          {fillTableWithEmails(props)}
-        </div>
+      </div>
+      <div className="email-list-body">
+        {fillTableWithEmails(props)}
       </div>
     </div>
   );
@@ -62,6 +60,7 @@ function handleKeyPressed(
       isFilterCleared === false
     ) {
       props.updateFilter('inbox');
+
       props.updateEmailAction(
         { action: 'UPDATE_FILTER' },
         { value: false }
@@ -91,6 +90,7 @@ function handleClick(props, operation, payload) {
       { action: 'UPDATE_DISPLAY_EMAIL' },
       payload
     );
+
     props.updateEmailAction(operation, payload);
   };
 }
@@ -134,20 +134,20 @@ function fillTableWithEmails(props) {
             )}
             name={email.from}
           >
-            <div className="email-table-data">
-              <div className="email-table-data-top">
-                <div className="email-table-data-top-from">
+            <div className="email-list-data">
+              <div className="email-list-data-top">
+                <div className="email-list-data-top-from">
                   {email.from}
                 </div>
-                <div className="email-table-data-top-date">
+                <div className="email-list-data-top-date">
                   {email.date}
                 </div>
               </div>
-              <div className="email-table-data-bottom">
-                <div className="email-table-data-bottom-subject">
+              <div className="email-list-data-bottom">
+                <div className="email-list-data-bottom-subject">
                   {email.subject}
                 </div>
-                <div className="email-table-data-bottom-attachment">
+                <div className="email-list-data-bottom-attachment">
                   <ion-icon name="attach-outline"></ion-icon>
                 </div>
               </div>
@@ -159,8 +159,8 @@ function fillTableWithEmails(props) {
   } else {
     if (_currentInboxEmails.length === 0) {
       _html = (
-        <div className="email-table-readed-tr">
-          <div className="email-table-data">
+        <div className="email-list-readed">
+          <div className="email-list-data">
             No messages to show
           </div>
         </div>
@@ -174,9 +174,9 @@ function fillTableWithEmails(props) {
 
 function setListElementClass(isRead) {
   if (isRead === true) {
-    return 'email-table-readed-tr';
+    return 'email-list-readed';
   } else {
-    return 'email-table-unreaded-tr';
+    return 'email-list-unreaded';
   }
 }
 
@@ -201,4 +201,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EmailTable);
+)(EmailList);

@@ -38,7 +38,7 @@ function handleUpdateEmailAction(
 function renderDetails(displayEmail, props) {
   if (displayEmail.from) {
     return (
-      <div>
+      <div className="email-details">
         <div>
           <button
             className="email-label-delete"

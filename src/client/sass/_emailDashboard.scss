@@ -1,0 +1,66 @@
+$radius: 3px;
+
+.email-dashboard {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+
+  @include respond-to(desktop) {
+    margin: 0rem 7rem;
+    align-items: center;
+  }
+
+  @include respond-to(tablet) {
+    margin: 0rem 0rem;
+    align-items: flex-start;
+  }
+
+  @include respond-to(phone) {
+    margin: 0rem 0rem;
+    align-items: flex-start;
+  }
+}
+
+.email-dashboard-grid {
+  display: grid;
+
+  @include respond-to(phone) {
+    grid-template-columns: 100%;
+    text-overflow: ellipsis;
+    height: 800px;
+  }
+
+  @include respond-to(desktop) {
+    grid-template-columns: 45% 55%;
+    width: 1280px;
+    height: 800px;
+  }
+
+  @include respond-to(tablet) {
+    grid-template-columns: 40% 60%;
+    text-overflow: ellipsis;
+    width: 1024px;
+    height: 800px;
+  }
+
+  box-shadow: 0px 0px 10px 2px #00000033;
+}
+
+.email-dashboard-table {
+  z-index: 2;
+  border-radius: $radius 0 0 $radius;
+  background-color: #fff;
+  box-shadow: 10px 0px 10px #00000017;
+  @include respond-to(phone) {
+    height: 500px;
+  }
+  @include respond-to(tablet) {
+    height: 700px;
+  }
+}
+
+.email-dashboard-content {
+  padding: 1rem;
+  border-radius: 0px $radius $radius 0px;
+  background-color: $gray;
+}

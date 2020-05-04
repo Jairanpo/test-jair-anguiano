@@ -1,0 +1,139 @@
+.email-list-body {
+  overflow: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 700px;
+  @include respond-to(phone) {
+    height: 350px;
+  }
+}
+
+.email-list {
+  list-style-type: none;
+  padding: 0px;
+  border-collapse: collapse;
+  font-family: $font;
+  font-size: $size;
+  width: 100%;
+  height: 100%;
+  @include respond-to(phone) {
+    height: 350px;
+  }
+  @include respond-to(phone) {
+    height: 680px;
+  }
+}
+
+@mixin email($bg: $BlueBackgroundColor) {
+  z-index: 2;
+  display: grid;
+  cursor: pointer;
+  border: 1px solid #dfdfdf;
+  background-color: $bg;
+  padding: 0.5rem;
+}
+
+.email-list-searchbar {
+  @include email(#fff);
+}
+
+.email-list-readed {
+  animation-name: fadeInListElement;
+  animation-duration: 1s;
+  @include email(#fff);
+  transition: background-color 1s
+    cubic-bezier(0.33, -0.06, 0.41, 1.13);
+  transition: background-color 0.3s
+    cubic-bezier(0.33, -0.06, 0.41, 1.13);
+  transition: transform 0.3s
+    cubic-bezier(0.5, -0.48, 0.57, 1.22);
+  transition: box-shadow 0.5s;
+  &:hover {
+    transform: rotateX(20deg);
+    box-shadow: 0px 5px 20px 5px #00000035;
+  }
+}
+
+.email-list-unreaded {
+  animation-name: fadeInListElement;
+  animation-duration: 1s;
+  @include email();
+  border-left-color: $blue;
+  border-width: 1px 1px 1px 3px;
+  transition: background-color 0.3s
+    cubic-bezier(0.33, -0.06, 0.41, 1.13);
+  transition: transform 0.3s
+    cubic-bezier(0.5, -0.48, 0.57, 1.22);
+  transition: box-shadow 0.5s;
+  &:hover {
+    transform: rotateX(20deg);
+    box-shadow: 0px 5px 20px 5px #00000035;
+  }
+}
+
+@keyframes fadeInListElement {
+  0% {
+    transform: translate(-30px, 0px);
+  }
+  80% {
+    transform: translate(2px, 0px);
+  }
+
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+.email-list-data-top-from {
+  color: $blue;
+  @include respond-to(desktop) {
+    font-size: 12px;
+  }
+  @include respond-to(tablet) {
+    font-size: 18px;
+  }
+}
+
+.email-list-data {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.email-list-data-top {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  div {
+    padding: 0.2rem;
+  }
+}
+
+.email-list-data-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  div {
+    padding: 0.2rem;
+  }
+}
+
+.email-list-data-top-from {
+  font-weight: bold;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar-input {
+  height: 2.2rem;
+  margin: 0.7rem;
+  box-shadow: 0px 0px 7px #00000062;
+  border: none;
+  border-radius: 3px;
+  width: 100%;
+}

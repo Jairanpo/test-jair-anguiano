@@ -1,0 +1,44 @@
+.inbox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  @include respond-to(tablet) {
+    font-size: 18px;
+  }
+}
+
+.inbox-filter {
+  border: solid;
+  border-width: 2px;
+  border-color: $gray;
+  transition: border-width 1s;
+}
+
+.inbox-title-email-amount {
+  margin: 0.3rem;
+  display: inline-block;
+  background-color: $red;
+  padding: 0.3rem 1rem;
+  border-radius: 10px;
+  color: #fff;
+  @include respond-to(desktop) {
+    font-size: 16px;
+  }
+  cursor: pointer;
+  &:hover {
+    animation-name: pop-amount;
+    animation-duration: 0.5s;
+  }
+}
+@keyframes pop-amount {
+  0% {
+    transform: scale(0.9);
+  }
+  80% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: sale(1);
+  }
+}

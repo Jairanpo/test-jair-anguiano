@@ -5,14 +5,12 @@
   "author": "Jair Anguiano",
   "license": "MIT",
   "scripts": {
-    "build:static": "webpack && babel-node tools/index.js",
-    "build:server": "webpack --exec babel-node src/server/expressServer.js",
-    "build:client": "webpack",
-    "build": "npm run build:client && npm run build:server",
+    "build:server": "babel-node src/server/expressServer.js",
+    "build:client": "webpack -config=config/webpack.config.client.js",
     "start:server": "nodemon --exec babel-node src/server/expressServer.js",
     "start:client": "webpack --watch --config=config/webpack.config.client.js",
-    "start:json": "json-server db.json --port 4000",
-    "start": "npm run start:client & npm run start:server"
+    "dev": "npm run start:client & npm run start:server",
+    "start": "npm run build:client & npm run build:server"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -21,22 +19,14 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "babel-loader": "^8.1.0",
-    "concurrently": "^5.2.0",
     "css-loader": "^3.5.3",
-    "extract-loader": "^5.0.1",
     "file-loader": "^6.0.0",
-    "html-loader": "^1.1.0",
-    "html-webpack-plugin": "^4.2.1",
-    "mini-css-extract-plugin": "^0.9.0",
     "nodemon": "^2.0.3",
-    "react-hot-loader": "^4.5.3",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-middleware": "^3.7.2",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -44,7 +34,6 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
-    "redux": "^4.0.5",
-    "uuid": "^8.0.0"
+    "redux": "^4.0.5"
   }
 }
