@@ -1,6 +1,6 @@
 import React from 'react';
 
-/*-----------------------------------------------------------------*/
+/*==================================================================*/
 
 function Inbox(props) {
   function handleChange(event) {
@@ -15,21 +15,16 @@ function Inbox(props) {
         <select
           id="inbox-select"
           onChange={handleChange}
+          value={props.filter}
         >
-          <option
-            className="inbox-option-inbox"
-            value="filtered"
-          >
-            Filter by
-          </option>
           <option
             className="inbox-option-inbox"
             value="inbox"
           >
-            Inbox
+            Filtered by
           </option>
           <option
-            className="inbox-option-spam"
+            className="inbox-option-inbox"
             value="spam"
           >
             Spam
@@ -40,12 +35,18 @@ function Inbox(props) {
           >
             Deleted
           </option>
+          <option
+            className="inbox-option-deleted"
+            value="filtered"
+          >
+            Filtered
+          </option>
         </select>
       </div>
     </div>
   );
 }
 
-/*=================================================================*/
+/*============================================================================*/
 
 export default Inbox;

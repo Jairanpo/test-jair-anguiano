@@ -2,7 +2,7 @@
 
 import seedEmail from '../seed/emailSeed';
 
-/*-----------------------------------------------------------------*/
+/*============================================================================*/
 
 function emailReducers(
   state = seedEmail,
@@ -30,188 +30,114 @@ function emailReducers(
     case 'FILTERED_EMAILS':
       return filtered_email(
         state,
-        action.operation,
         action.payload
       );
+    case 'UPDATE_FILTER':
+      return update_in_filter(
+        state,
+        action.payload
+      );
+
     default:
       return state;
   }
 }
 
-/*-----------------------------------------------------------------*/
+/*============================================================================*/
 
 function update_has_been_readed(
   state,
   operation,
   payload
 ) {
-  let newState = {
-    inbox: state.inbox,
-    spam: state.spam,
-    deleted: state.deleted,
-    filtered: state.filtered,
-  };
+  let newState = [...state];
 
   if (
     operation.action === 'EMAIL_HAS_BEEN_READ'
   ) {
-    newState[payload.type] = newState[
-      payload.type
-    ].map((email) => {
-      if (
-        email.from === payload.from &&
-        email.date === payload.date
-      ) {
-        email.isReaded = true;
-      }
-      return email;
-    });
-    return newState;
-  }
-  if (
+    toggleIsReaded(newState, payload, true);
+  } else if (
     operation.action === 'EMAIL_HASNT_BEEN_READ'
   ) {
-    newState[payload.type] = newState[
-      payload.type
-    ].map((email) => {
-      if (
-        email.from === payload.from &&
-        email.date === payload.date
-      ) {
-        email.isReaded = false;
-      }
-      return email;
-    });
-    return newState;
+    toggleIsReaded(newState, payload, false);
   }
+  return newState;
 }
 
-/* .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .*/
+/*   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .  .  .  .  .  . */
+
+function toggleIsReaded(
+  newState,
+  payload,
+  value
+) {
+  newState.map((element) => {
+    if (
+      payload.from === element.from &&
+      payload.date === element.date
+    ) {
+      element.isReaded = value;
+    }
+    return element;
+  });
+}
+
+/* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
 
 function move_email(state, operation, payload) {
-  let newState = {
-    inbox: state.inbox,
-    deleted: state.deleted,
-    spam: state.spam,
-    filtered: state.filtered,
-  };
-
-  let alsoRemoveFrom = manage_update_from_filtered_field(
-    newState,
-    operation,
-    payload
-  );
+  let newState = [...state];
 
   if (operation.from !== operation.to) {
-    for (
-      var i = 0;
-      i < newState[operation.from].length;
-      i++
-    ) {
+    newState.map((element) => {
       if (
-        newState[operation.from][i].from ===
-          payload.from &&
-        newState[operation.from][i].date ===
-          payload.date
+        element.from === payload.from &&
+        element.date === payload.date
       ) {
-        break;
+        element.field = operation.to;
       }
-    }
-    if (operation.to === 'inbox') {
-      payload.isReaded = false;
-    }
-
-    newState[operation.to].push(payload);
-    newState[operation.from].splice(i, 1);
-  } else if (
-    operation.from === 'inbox' &&
-    operation.from === 'inbox'
-  ) {
-    let updatedInboxMessages = newState[
-      'inbox'
-    ].map(function changeIsRead(email) {
-      if (
-        email.from === payload.from &&
-        email.date === payload.date
-      ) {
-        email.isReaded = false;
-      }
-      return email;
+      return element;
     });
-
-    newState['inbox'] = updatedInboxMessages;
-  }
-
-  if (
-    alsoRemoveFrom.field !== null &&
-    alsoRemoveFrom.index !== null
-  ) {
-    newState[alsoRemoveFrom.field].splice(
-      alsoRemoveFrom.index,
-      1
-    );
   }
 
   return newState;
 }
 
-function manage_update_from_filtered_field(
-  newState,
-  operation,
-  payload
-) {
-  var removeFrom = { index: null, field: null };
-  var fields = ['inbox', 'spam', 'deleted'];
-  if (operation.from === 'filtered') {
-    fields.forEach((field) => {
-      newState[field].forEach((email, i) => {
-        if (
-          payload.from === email.from &&
-          payload.date === email.date
-        ) {
-          removeFrom.index = i;
-          removeFrom.field = field;
-        }
-      });
-    });
-  }
-  return removeFrom;
-}
+/* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
 
-/* .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .*/
-
-function filtered_email(
-  state,
-  operation,
-  payload
-) {
-  let newState = {
-    inbox: state.inbox,
-    spam: state.spam,
-    deleted: state.deleted,
-    filtered: state.filtered,
-  };
-
+function filtered_email(state, payload) {
+  let newState = [...state];
   let keyword = payload.keyword.toLowerCase();
 
-  let fields = ['inbox', 'spam', 'deleted'];
-
-  let filtered = [];
-
-  fields.forEach((field) => {
-    newState[field].forEach((email) => {
-      let word = email.from.toLowerCase();
-      if (word.includes(keyword)) {
-        filtered.push(email);
-      }
-    });
+  newState.map((element) => {
+    if (
+      element.from
+        .toLowerCase()
+        .includes(keyword) ||
+      element.subject
+        .toLowerCase()
+        .includes(keyword)
+    ) {
+      element.inFilter = true;
+    }
+    return element;
   });
-
-  newState.filtered = filtered;
 
   return newState;
 }
 
-/*=================================================================*/
+/* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
+
+function update_in_filter(state, payload) {
+  let newState = [...state];
+  newState.map((element) => {
+    if (element.inFilter !== payload.value) {
+      element.inFilter = payload.value;
+    }
+    return element;
+  });
+  return state;
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
 
 export default emailReducers;

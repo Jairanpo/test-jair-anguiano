@@ -4,15 +4,18 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import updateEmailAction from './actionCreators/updateEmailAction';
 
-/*-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --*/
+/*============================================================================*/
 
 function EmailTable(props) {
   const [search, setSearch] = useState('');
+  const [
+    isFilterCleared,
+    setIsFilterCleared,
+  ] = useState(true);
 
   function handleInput(event) {
     setSearch(event.target.value);
   }
-
   return (
     <div>
       <table className="email-table">
@@ -30,7 +33,9 @@ function EmailTable(props) {
                     {
                       action: 'FILTERED_EMAILS',
                     },
-                    { keyword: search }
+                    { keyword: search },
+                    isFilterCleared,
+                    setIsFilterCleared
                   )}
                 />
               </div>
@@ -42,31 +47,44 @@ function EmailTable(props) {
     </div>
   );
 }
-/*-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --*/
+
+/*============================================================================*/
 
 function handleKeyPressed(
   props,
   operation,
-  payload
+  payload,
+  isFilterCleared,
+  setIsFilterCleared
 ) {
   return function handleKeyPressedEvent(event) {
-    if (event.key === 'Enter') {
+    if (
+      event.key === 'Backspace' &&
+      event.target.value.length === 1 &&
+      isFilterCleared === false
+    ) {
+      props.updateFilter('inbox');
+      props.updateEmailAction(
+        { action: 'UPDATE_FILTER' },
+        { value: false }
+      );
+      setIsFilterCleared(true);
+    }
+
+    /*     .     .     .     .     .     */
+
+    if (
+      event.key === 'Enter' &&
+      event.target.value.length !== 0
+    ) {
       props.updateEmailAction(operation, payload);
+      props.updateFilter('filtered');
+      setIsFilterCleared(false);
     }
   };
 }
 
-/* .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .*/
-
-function setListElementClass(isRead) {
-  if (isRead === true) {
-    return 'email-table-readed-tr';
-  } else {
-    return 'email-table-unreaded-tr';
-  }
-}
-
-/* .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .*/
+/* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
 
 function handleClick(props, operation, payload) {
   return function handleEvent(event) {
@@ -79,12 +97,28 @@ function handleClick(props, operation, payload) {
   };
 }
 
-/* .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .*/
+/* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
 
 function fillTableWithEmails(props) {
   var _html;
-  if (props.emails[props.filter].length !== 0) {
-    _html = props.emails[props.filter].map(
+  var _currentInboxEmails = [];
+
+  if (props.filter !== 'filtered') {
+    props.emails.forEach((element) => {
+      if (element.field === props.filter) {
+        _currentInboxEmails.push(element);
+      }
+    });
+  } else {
+    props.emails.forEach((element) => {
+      if (element.inFilter) {
+        _currentInboxEmails.push(element);
+      }
+    });
+  }
+
+  if (_currentInboxEmails.length !== 0) {
+    _html = _currentInboxEmails.map(
       (email, index) => {
         return (
           <tr
@@ -125,7 +159,7 @@ function fillTableWithEmails(props) {
       }
     );
   } else {
-    if (props.emails.filtered.length === 0) {
+    if (_currentInboxEmails.length === 0) {
       _html = (
         <tr className="email-table-readed-tr">
           <td className="email-table-data">
@@ -138,7 +172,17 @@ function fillTableWithEmails(props) {
   return _html;
 }
 
-/*=================================================================*/
+/*   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .  .  .  .  .  . */
+
+function setListElementClass(isRead) {
+  if (isRead === true) {
+    return 'email-table-readed-tr';
+  } else {
+    return 'email-table-unreaded-tr';
+  }
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
 
 function mapStateToProps(state) {
   return {

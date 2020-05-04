@@ -2,18 +2,12 @@ import express from 'express';
 import path from 'path';
 import React from 'react';
 import ReactDom from 'react-dom/server';
-
-/* import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../../config/webpack.config.server'; */
-
 import App from '../client/components/app';
+import createRandomUser from './createRandomUser';
 
-/*-------------------------------------------------------------------*/
+/*============================================================================*/
 
 const app = express();
-/* var compiler = webpack(webpackConfig); */
 
 app.use(
   express.static(
@@ -27,11 +21,7 @@ app.use(
   )
 );
 
-/* app.use(
-  webpackDevMiddleware(compiler, webpackConfig)
-);
-
-app.use(webpackHotMiddleware(compiler)); */
+/* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
 
 app.get('/', (req, res) => {
   const root = (
@@ -55,6 +45,15 @@ app.get('/', (req, res) => {
 
   res.send(html);
 });
+
+/*   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .  .  .  .  .  . */
+
+app.get('/api/email', (req, res) => {
+  console.log('request');
+  res.json(createRandomUser());
+});
+
+/*============================================================================*/
 
 app.listen(3000, () => {
   console.log(

@@ -3,13 +3,37 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import updateEmailAction from './actionCreators/updateEmailAction';
 
-/*-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --*/
+/*============================================================================*/
 
 function EmailDetails(props) {
   return renderDetails(props.displayEmail, props);
 }
 
-/*-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --*/
+/*============================================================================*/
+
+function handleUpdateEmailAction(
+  props,
+  operation,
+  payload
+) {
+  return function handleClick(event) {
+    payload.type = props.filter;
+
+    if (operation.action === 'MOVE_EMAIL') {
+      props.updateEmailAction(operation, payload);
+      props.updateEmailAction(
+        { action: 'UPDATE_DISPLAY_EMAIL' },
+        {}
+      );
+    } else if (
+      operation.action == 'EMAIL_HASNT_BEEN_READ'
+    ) {
+      props.updateEmailAction(operation, payload);
+    }
+  };
+}
+
+/* ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- */
 
 function renderDetails(displayEmail, props) {
   if (displayEmail.from) {
@@ -84,7 +108,7 @@ function renderDetails(displayEmail, props) {
     return <div></div>;
   }
 }
-/* .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .*/
+/*   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .*/
 
 function fillTags(emailDetails) {
   let tagsArray = [emailDetails.tag];
@@ -101,27 +125,7 @@ function fillTags(emailDetails) {
   return [tags];
 }
 
-/* .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .*/
-
-function handleUpdateEmailAction(
-  props,
-  operation,
-  payload
-) {
-  return function handleClick(event) {
-    payload.type = props.filter;
-
-    if (operation.action === 'MOVE_EMAIL') {
-      props.updateEmailAction(operation, payload);
-    } else if (
-      operation.action == 'EMAIL_HASNT_BEEN_READ'
-    ) {
-      props.updateEmailAction(operation, payload);
-    }
-  };
-}
-
-/*=================================================================*/
+/*============================================================================*/
 
 function mapStateToProps(state) {
   return {
