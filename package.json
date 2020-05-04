@@ -10,7 +10,8 @@
     "start:server": "nodemon --exec babel-node src/server/expressServer.js",
     "start:client": "webpack --watch --config=config/webpack.config.client.js",
     "dev": "npm run start:client & npm run start:server",
-    "start": "npm run build:client & npm run build:server"
+    "start:mac": "npm run build:client & npm run build:server",
+    "dev:win": "concurrently \"npm run start:client\" \"npm run start:server\""
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -19,6 +20,7 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "babel-loader": "^8.1.0",
+    "concurrently": "^5.2.0",
     "css-loader": "^3.5.3",
     "file-loader": "^6.0.0",
     "nodemon": "^2.0.3",

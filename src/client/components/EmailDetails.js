@@ -97,7 +97,7 @@ function renderDetails(displayEmail, props) {
             <button className="email-details-footer-attachment">
               <ion-icon name="attach-outline"></ion-icon>
             </button>
-            <button className="email-details-footer-replay">
+            <button className="email-details-footer-reply">
               Reply
             </button>
           </div>
