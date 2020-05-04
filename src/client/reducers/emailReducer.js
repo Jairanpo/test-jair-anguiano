@@ -96,7 +96,7 @@ function move_email(state, operation, payload) {
     filtered: state.filtered,
   };
 
-  manage_update_from_filtered_field(
+  let alsoRemoveFrom = manage_update_from_filtered_field(
     newState,
     operation,
     payload
@@ -142,6 +142,16 @@ function move_email(state, operation, payload) {
     newState['inbox'] = updatedInboxMessages;
   }
 
+  if (
+    alsoRemoveFrom.field !== null &&
+    alsoRemoveFrom.index !== null
+  ) {
+    newState[alsoRemoveFrom.field].splice(
+      alsoRemoveFrom.index,
+      1
+    );
+  }
+
   return newState;
 }
 
@@ -175,19 +185,26 @@ function filtered_email(
   operation,
   payload
 ) {
-  var newState = {
+  let newState = {
     inbox: state.inbox,
     spam: state.spam,
     deleted: state.deleted,
     filtered: state.filtered,
   };
 
-  var filtered = [];
+  let keyword = payload.keyword.toLowerCase();
 
-  newState.inbox.forEach((email) => {
-    if (email.from.includes(payload.keyword)) {
-      filtered.push(email);
-    }
+  let fields = ['inbox', 'spam', 'deleted'];
+
+  let filtered = [];
+
+  fields.forEach((field) => {
+    newState[field].forEach((email) => {
+      let word = email.from.toLowerCase();
+      if (word.includes(keyword)) {
+        filtered.push(email);
+      }
+    });
   });
 
   newState.filtered = filtered;

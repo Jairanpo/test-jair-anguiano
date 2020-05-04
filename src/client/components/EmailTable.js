@@ -51,11 +51,6 @@ function handleKeyPressed(
 ) {
   return function handleKeyPressedEvent(event) {
     if (event.key === 'Enter') {
-      console.log(`
-        Enter key pressed with the following parameters:
-        operation.action: ${operation.action}
-        payload.keyword: ${payload.keyword}
-      `);
       props.updateEmailAction(operation, payload);
     }
   };

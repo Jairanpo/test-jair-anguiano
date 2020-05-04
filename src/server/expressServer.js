@@ -3,17 +3,17 @@ import path from 'path';
 import React from 'react';
 import ReactDom from 'react-dom/server';
 
-import webpack from 'webpack';
+/* import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../../config/webpack.config.server';
+import webpackConfig from '../../config/webpack.config.server'; */
 
 import App from '../client/components/app';
 
 /*-------------------------------------------------------------------*/
 
 const app = express();
-var compiler = webpack(webpackConfig);
+/* var compiler = webpack(webpackConfig); */
 
 app.use(
   express.static(
@@ -27,11 +27,11 @@ app.use(
   )
 );
 
-app.use(
+/* app.use(
   webpackDevMiddleware(compiler, webpackConfig)
 );
 
-app.use(webpackHotMiddleware(compiler));
+app.use(webpackHotMiddleware(compiler)); */
 
 app.get('/', (req, res) => {
   const root = (
