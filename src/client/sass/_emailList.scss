@@ -8,9 +8,6 @@
   border-collapse: collapse;
   font-family: $font;
   font-size: $size;
-  overflow: auto;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 @mixin email($bg: $BlueBackgroundColor) {

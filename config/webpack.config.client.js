@@ -1,6 +1,8 @@
 const path = require('path');
 
-module.exports = {
+/*============================================================================*/
+
+var config = {
   mode: 'development',
 
   context: path.resolve(
@@ -34,7 +36,8 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
-      /*...................................................................*/
+      /*     .     .     .     .     .     */
+
       {
         test: /\.scss$/,
         use: [
@@ -43,9 +46,13 @@ module.exports = {
           'sass-loader',
         ],
       },
-      /*...................................................................*/
+      /*     .     .     .     .     .     */
     ],
   },
 
   devtool: 'inline-source-map',
 };
+
+/*============================================================================*/
+
+module.exports = config;

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from '../reducers/rootReducer';
 
-/*-----------------------------------------------------------------*/
+/*============================================================================*/
 
 const store = createStore(rootReducer);
 
@@ -18,6 +18,7 @@ function App(props) {
   );
 }
 
-App.defaultProps = {};
+/*============================================================================*/
 
+App.defaultProps = {};
 export default App;

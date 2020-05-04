@@ -5,13 +5,14 @@
   "author": "Jair Anguiano",
   "license": "MIT",
   "scripts": {
-    "build:server": "babel-node src/server/expressServer.js",
-    "build:client": "webpack -config=config/webpack.config.client.js",
-    "start:server": "nodemon --exec babel-node src/server/expressServer.js",
-    "start:client": "webpack --watch --config=config/webpack.config.client.js",
-    "dev": "npm run start:client & npm run start:server",
-    "start:mac": "npm run build:client & npm run build:server",
-    "dev:win": "concurrently \"npm run start:client\" \"npm run start:server\""
+    "start:server": "babel-node src/server/expressServer.js",
+    "start:client": "webpack --config=config/webpack.config.client.js",
+    "dev:server": "nodemon --exec babel-node src/server/expressServer.js",
+    "dev:client": "webpack --watch --config=config/webpack.config.client.js",
+    "dev:mac": "npm run dev:client & npm run dev:server",
+    "start:mac": "npm run start:client & npm run start:server",
+    "dev:win": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "start:win": "concurrently \"npm run start:client\" \"npm run start:server\""
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
