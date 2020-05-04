@@ -36,7 +36,7 @@ function EmailDashboard(props) {
         .catch((err) => {
           console.log(err);
         });
-    }, 10000);
+    }, 3000);
   }, []);
 
   function handleFilter(value) {

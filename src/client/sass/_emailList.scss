@@ -1,11 +1,5 @@
 .email-list-body {
-  overflow: auto;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 700px;
-  @include respond-to(phone) {
-    height: 350px;
-  }
+  height: 800px;
 }
 
 .email-list {
@@ -14,6 +8,9 @@
   border-collapse: collapse;
   font-family: $font;
   font-size: $size;
+  overflow: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 @mixin email($bg: $BlueBackgroundColor) {

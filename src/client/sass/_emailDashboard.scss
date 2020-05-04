@@ -16,7 +16,7 @@ $radius: 3px;
   }
 
   @include respond-to(phone) {
-    margin: .5rem 0rem;
+    margin: 0.5rem 0rem;
     align-items: flex-start;
   }
 }
@@ -24,23 +24,23 @@ $radius: 3px;
 .email-dashboard-grid {
   display: grid;
 
+  overflow: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
   @include respond-to(phone) {
     grid-template-columns: 100%;
     text-overflow: ellipsis;
-    height: 100%
   }
 
   @include respond-to(desktop) {
     grid-template-columns: 45% 55%;
     width: 1280px;
-    height: 100%;
   }
 
   @include respond-to(tablet) {
     grid-template-columns: 40% 60%;
     text-overflow: ellipsis;
     width: 1024px;
-    height: 100%
   }
 
   box-shadow: 0px 0px 10px 2px #00000033;
@@ -51,12 +51,7 @@ $radius: 3px;
   border-radius: $radius 0 0 $radius;
   background-color: #fff;
   box-shadow: 10px 0px 10px #00000017;
-  @include respond-to(phone) {
-    height: 500px;
-  }
-  @include respond-to(tablet) {
-    height: 700px;
-  }
+  height: 800px;
 }
 
 .email-dashboard-content {
